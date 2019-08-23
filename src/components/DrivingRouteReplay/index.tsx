@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card } from 'antd';
 import { IPoint } from '../_utils/point';
 import { Map, Marker, InfoWindow } from '../../index';
@@ -17,7 +17,6 @@ const DrivingRouteReplay: React.FunctionComponent<IDrivingRouteReplayProps> = pr
   const [playerRefs, setPlayerRefs] = useState<BMapLib.LuShu | null>(null);
   const [moveStatus, setMoveStatus] = useState<string>('pause');
   const [infoWindowPosition, setInfoWindowPosition] = useState(points[0]);
-  const [markerRef, setMarkerRef] = useState<BMapLib.RichMarker | null>(null);
   const [passedPolylinePath, setPassedPolylinePath] = useState<IPoint[]>([]);
   const [slideValue, setSlideValue] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(false);
@@ -27,26 +26,17 @@ const DrivingRouteReplay: React.FunctionComponent<IDrivingRouteReplayProps> = pr
     }
   }, []);
 
-  const markerRefHandle = useCallback(node => {
-    if (node && node.marker) {
-      setMarkerRef(node.marker);
-    }
-  }, []);
-
-  function onStartMove(event: any) {
-    console.log(event.type);
+  function onStartMove() {
     setMoveStatus('start');
     if (moveStatus === 'over') {
       setInfoWindowPosition(points[0]);
       setPassedPolylinePath([]);
     }
   }
-  function onPauseMove(event: any) {
-    console.log(event.type);
+  function onPauseMove() {
     setMoveStatus('pause');
   }
-  function onMoveEnd(event: any) {
-    console.log(event.type);
+  function onMoveEnd() {
     setMoveStatus('over');
   }
   function onMoving(event: any) {
@@ -91,51 +81,38 @@ const DrivingRouteReplay: React.FunctionComponent<IDrivingRouteReplayProps> = pr
       viewportPoints={points}
       mapContainerStyle={{ height: '450px' }}
     >
-      <Marker
-        ref={markerRefHandle}
-        position={infoWindowPosition}
-        // offset={{ left: -12, top: -34 }}
-        // labelStyle={{border:'1px solid red,left:100px'}}
-        // label={<CustonCard />}
-      >
-        {/* <CustonCard /> */}
+      <Marker position={infoWindowPosition}>
         <div />
       </Marker>
 
-      {markerRef ? (
-        <Fragment>
-          <InfoWindow
-            position={infoWindowPosition}
-            visible={visible}
-            onCancel={() => {
-              setVisible(false);
-              console.log('close');
-            }}
-          >
-            <CustonCard />
-          </InfoWindow>
-          <Player
-            points={points}
-            speed={speed}
-            passedPolylinePath={passedPolylinePath}
-            markerRef={markerRef}
-            ref={playerRef}
-            onStartMove={onStartMove}
-            onPauseMove={onPauseMove}
-            onMoveEnd={onMoveEnd}
-            onMoving={onMoving}
-            onMarkerMoving={onMarkerMoving}
-            onMarkerClick={onMarkerClick}
-          />
-          <Control
-            slideValue={slideValue}
-            playerRef={playerRefs}
-            moveStatus={moveStatus}
-            onSlideChange={onSlideChange}
-            onSpeedChange={onSpeedChange}
-          />
-        </Fragment>
-      ) : null}
+      <InfoWindow
+        position={infoWindowPosition}
+        visible={visible}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      >
+        <CustonCard />
+      </InfoWindow>
+      <Player
+        points={points}
+        speed={speed}
+        passedPolylinePath={passedPolylinePath}
+        ref={playerRef}
+        onStartMove={onStartMove}
+        onPauseMove={onPauseMove}
+        onMoveEnd={onMoveEnd}
+        onMoving={onMoving}
+        onMarkerMoving={onMarkerMoving}
+        onMarkerClick={onMarkerClick}
+      />
+      <Control
+        slideValue={slideValue}
+        playerRef={playerRefs}
+        moveStatus={moveStatus}
+        onSlideChange={onSlideChange}
+        onSpeedChange={onSpeedChange}
+      />
     </Map>
   );
 };

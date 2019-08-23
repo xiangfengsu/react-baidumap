@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Slider, Select } from 'antd';
 
 export interface IControlProps {
-  //   points: IPoint[];
   playerRef: BMapLib.LuShu | null;
   moveStatus: string;
   slideValue: number;
@@ -18,11 +17,6 @@ const Control: React.FunctionComponent<IControlProps> = props => {
   const { playerRef, moveStatus, onSlideChange, onSpeedChange, slideValue } = props;
 
   const boxStyle: React.CSSProperties = {
-    // position: 'absolute',
-    // bottom: '0px',
-    // left: '0px',
-    // padding: '5px 10px',
-    // border: '1px solid #d3d3d3',
     color: '#fff',
     backgroundColor: '#fff',
     marginTop: 2,

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, forwardRef, useRef, useImperativeHandle } from 'react';
 import { registerEvents, unRegisterEvents } from '../_utils/help-tools';
-import { usePreviousProps } from '../_utils/hooks';
-import { applyUpdatersToProps } from '../_utils/help';
 import { addPlugins } from '../_utils/addPlugin';
 import { useMap } from '../map-context';
 import { IPoint } from '../_utils/point';
@@ -11,7 +9,6 @@ export interface IPlayerProps {
   points: IPoint[];
   speed?: number;
   passedPolylinePath: IPoint[];
-  markerRef: BMapLib.RichMarker;
   onMoving?: (event?: any) => void;
   onMoveEnd?: (event?: any) => void;
   onStartMove?: (event?: any) => void;
@@ -23,21 +20,6 @@ export interface IPlayerProps {
 
 const defaultProps: Partial<IPlayerProps> = {};
 
-const updaterMap = {
-  //   options(instance: BMapLib.LuShu, options: BMapLib.LuShuOptions) {
-  //     instance.setOptions(options);
-  //   },
-  //   points(instance: BMapLib.LuShu, points: BMapLib.DataPoint[] = []) {
-  //     const max = points.reduce((pre, act) => {
-  //       if (act.count > pre) pre = act.count;
-  //       return pre;
-  //     }, 0);
-  //     instance.setDataSet({
-  //       max,
-  //       data: points,
-  //     });
-  //   },
-};
 const eventMap = {
   onMoving: 'moving',
   onMoveEnd: 'moveend',
@@ -45,7 +27,6 @@ const eventMap = {
   onPauseMove: 'pausemove',
   onMarkerMoving: 'markermoving',
   onMarkerClick: 'markerclick',
-  //   onStopMove: 'stopmove',
 };
 
 const transformPoints = (points: IPoint[]): BMap.Point[] => {
@@ -61,7 +42,6 @@ const Player = forwardRef((props: IPlayerProps, ref: React.RefObject<Record<stri
   const registeredEventsRef = useRef<any[]>([]);
   const passedPolylineRef = useRef<{ instance: BMap.Polyline | null }>(null);
   const [playerInstance, setPlayerInstance] = useState<BMapLib.LuShu>();
-  const prevProps = usePreviousProps(props);
 
   useEffect(function initInstance() {
     addPlugins(['LuShu']).then(() => {
@@ -73,16 +53,9 @@ const Player = forwardRef((props: IPlayerProps, ref: React.RefObject<Record<stri
       };
 
       const drivingRouteReplay = new BMapLib.LuShu(map, transformPoints(points), opts);
-      applyUpdatersToProps(updaterMap, {}, props, drivingRouteReplay, map);
       setPlayerInstance(drivingRouteReplay);
     });
   }, []);
-
-  useEffect(function updatersToProps() {
-    if (playerInstance) {
-      applyUpdatersToProps(updaterMap, prevProps, props, playerInstance, map);
-    }
-  });
 
   useEffect(function setEvents() {
     if (playerInstance) {
