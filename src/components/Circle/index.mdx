@@ -1,0 +1,66 @@
+---
+name: Circle
+route: /circle
+order: 3
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button } from 'antd';
+import {Map,Marker,Circle} from '../../index';
+
+# Circle Component
+
+## 用法
+#### 基本设置
+<Playground>
+    {()=>{
+        const [radius,setRadius] = React.useState(100);
+        const [center,setCenter] = React.useState({lng:121.359593, lat:31.228016});
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Circle center={center} radius={radius} strokeColor="blue" strokeWeight={2} />
+                  <Button onClick={()=>setRadius(radius+5)}>update radius</Button>
+                  <Button onClick={()=>setCenter({lng: 121.34883790388228, lat: 31.227074958400895})}>update center</Button>
+               </Map>
+    }}
+</Playground>
+
+
+#### 可编辑
+<Playground>
+    {()=>{
+        const [enableEditing,setEnableEditing] = React.useState(true);
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Circle center={{lng:121.359593, lat:31.228016}} radius={300} enableEditing={enableEditing} strokeColor="blue" strokeWeight={2} />
+                  <Button onClick={()=>setEnableEditing(!enableEditing)}>update enableEditing</Button>
+               </Map>
+    }}
+</Playground>
+
+## API
+
+#### 属性
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| center | 设置圆形的中心点坐标 | {lng,lat} | - |
+| radius | 设置圆形的半径，单位为米| number | - |
+| strokeColor | 设置圆形的边线颜色，参数为合法的CSS颜色值 | string | - |
+| fillColor | 设置圆形的填充颜色，参数为合法的CSS颜色值。当参数为空字符串时，圆形覆盖物将没有填充效果 | string | - |
+| strokeOpacity | 设置圆形的边线透明度，取值范围0 - 1 | number | - |
+| fillOpacity | 设置圆形的填充透明度，取值范围0 - 1 | number | - |
+| strokeWeight | 设置圆形边线的宽度，取值为大于等于1的整数 | number | - |
+| strokeStyle | 设置圆形边线样式为实线或虚线，取值`solid` `dashed` | string | - |
+| enableEditing | 开启编辑功能 | boolean | - |
+| enableMassClear | 允许覆盖物在map.clearOverlays方法中被清除 | boolean | - |
+
+#### 事件 [参考](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b16)
+| 参数 | 说明 | 参数 | 
+| --- | --- | --- | 
+| onClick | 鼠标点击圆形后会触发此事件| {type, target, point, pixel} |
+| onDblClick | 鼠标双击圆形后会触发此事件 | {type, target, pixel, point} |
+| onMouseDown | 鼠标在圆形上按下触发此事件 | {type, target, pixel, point} |
+| onMouseUp | 在Marker上弹起鼠标时，派发事件 | {type, target, pixel, point} |
+| onMouseOut | 鼠标离开圆形时触发此事件 | {type, target, pixel, point} |
+| onMouseOver | 当鼠标进入圆形区域时会触发此事件 | {type, target, pixel, point} |
+| onRemove | 移除圆形时触发此事件 | {type, target} |
+| onLineUpdate | 圆形覆盖物的属性发生变化时触发此事件 | {type, target} |

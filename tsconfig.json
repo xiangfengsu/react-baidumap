@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      
+  
+      "target": "es5",
+      "lib": ["dom", "es2017"],
+      "sourceMap": true,
+      "jsx": "react",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "rootDir": ".",
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitReturns": true,
+      "noImplicitAny": true,
+      "importHelpers": true,
+      "strictNullChecks": true,
+      "esModuleInterop": true,
+      "noUnusedLocals": true,
+      "allowSyntheticDefaultImports": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "keyofStringsOnly":true,
+      "typeRoots":[
+        "./types",
+        "./node_modules/@types"
+      ]
+    },
+    "include": ["src/**/*"],
+    "exclude": [
+      "node_modules",
+      "lib",
+      "es",
+      "build",
+      "dist",
+      "acceptance-tests",
+      "webpack",
+      "jest",
+      "*.js",
+      "__tests__"
+    ]
+  }

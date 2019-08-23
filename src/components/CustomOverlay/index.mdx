@@ -1,0 +1,31 @@
+---
+name: CustomOverlay
+route: /customOverlay
+order: 7
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button } from 'antd';
+
+
+import { Map,Marker,CustomOverlay } from '../../index';
+
+# CustomOverlay Component
+
+## 用法
+#### 设置位置
+<Playground>
+    {()=>{
+        const [text,setText] = React.useState(1);
+        const [offset,setOffset] = React.useState([0,0]);
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" id="map_events" enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <CustomOverlay position={{lng:121.359593, lat:31.228016}} offset={offset}>
+                     <div style={{width:30,border:'1px solid red'}}>{text}</div>
+                 </CustomOverlay>
+                 <Button onClick={()=>setText(text+1)}>update children</Button>
+                 <Button onClick={()=>setOffset([10,-10])}>update offset</Button>
+                 {text}
+               </Map>
+    }}
+</Playground>

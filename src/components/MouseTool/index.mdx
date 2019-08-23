@@ -1,0 +1,275 @@
+---
+name: MouseTool
+route: /mousetool
+order: 11
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button } from 'antd';
+import {Map,Marker,MouseTool} from '../../index';
+
+
+# MouseTool Component
+
+## 用法
+### `NavigationControl`
+<Playground>
+    {()=>{
+        const { NavigationControl } = MouseTool;
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <NavigationControl  />
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `ScaleControl`
+<Playground>
+    {()=>{
+        const { NavigationControl ,ScaleControl} = MouseTool;
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <NavigationControl  />
+                    <ScaleControl offset={{left:60,top:0}} />
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `GeoLocationControl`
+<Playground>
+    {()=>{
+        const { NavigationControl ,GeoLocationControl} = MouseTool;
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <NavigationControl  />
+                    <GeoLocationControl anchor="BMAP_ANCHOR_TOP_RIGHT" offset={{left:60,top:0}}/>
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `OverviewMapControl`
+<Playground>
+    {()=>{
+        const { OverviewMapControl} = MouseTool;
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <OverviewMapControl isOpen />
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `MapTypeMapControl`
+<Playground>
+    {()=>{
+        const { MapTypeMapControl} = MouseTool;
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <MapTypeMapControl  />
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `PanoramaControl`
+<Playground>
+    {()=>{
+        const { PanoramaControl} = MouseTool;
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <PanoramaControl  />
+                    
+                 </MouseTool>
+               </Map>
+    }}
+</Playground>
+
+### `DrawingControl`
+<Playground>
+    {()=>{
+        
+        const { DrawingControl} = MouseTool;
+        const [drawingMode,setDrawingMode] = React.useState('BMAP_DRAWING_CIRCLE');
+        const [isOpen,setIsOpen] = React.useState(true);
+        const overlays= React.useRef([]);
+        const mapRef = React.useRef();
+        const styleOptions = {
+          strokeColor: 'red', //边线颜色。
+          fillColor: 'red', //填充颜色。当参数为空时，圆形将没有填充效果。
+          strokeWeight: 3, //边线的宽度，以像素为单位。
+          strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
+          fillOpacity: 0.6, //填充的透明度，取值范围0 - 1。
+          strokeStyle: 'solid', //边线的样式，solid或dashed。
+        };
+        function changeHandle(isOpen,drawingMode){
+            setIsOpen(isOpen)
+            setDrawingMode(drawingMode);
+            console.log('drawingMode',drawingMode);
+        }
+        function onCircleComplete(event){
+            console.log('中心点坐标:',event)
+            console.log('圆形的半径:',event.getRadius())
+        }
+        function onRectangleComplete(event){
+            console.log('矩形点数组:',event.getPath())
+        }
+        function onPolygonComplete(event){
+            console.log('多边型的点数组:',event.getPath())
+            setIsOpen(false)
+        }
+        function onPolylineComplete(event){
+            console.log('线段的点数组:',event.getPath())
+            setIsOpen(false)
+        }
+        function onMarkerComplete(event){
+            console.log('标注的地理坐标:',event.getPosition())
+        }
+        function onOverlayComplete(event){
+            overlays.current.push(event.overlay);
+        }
+        function removeOverlay(){
+            if(mapRef.current.map){
+                for(let overlay of overlays.current){
+                    mapRef.current.map.removeOverlay(overlay)
+                }
+                overlays.current.length = 0;
+            }
+        }
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" ref={mapRef}  enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <DrawingControl  
+                       drawingMode={drawingMode} 
+                       isOpen={isOpen} 
+                       onCircleComplete={onCircleComplete} 
+                       onRectangleComplete={onRectangleComplete} 
+                       onPolygonComplete={onPolygonComplete}
+                       onPolylineComplete={onPolylineComplete}
+                       onMarkerComplete={onMarkerComplete}
+                       onOverlayComplete={onOverlayComplete}
+                       circleOptions={styleOptions}
+                       polylineOptions={styleOptions}
+                       polygonOptions={styleOptions}
+                       rectangleOptions={styleOptions}
+                    />
+                    
+                 </MouseTool>
+                 <div style={{marginTop:2}}>
+                     <Button size="small" type="primary" onClick={()=>changeHandle(true,'BMAP_DRAWING_CIRCLE')}>画圆</Button>
+                     <Button style={{marginLeft:10}} size="small" type="primary" onClick={()=>changeHandle(true,'BMAP_DRAWING_RECTANGLE')}>画矩形</Button>
+                     <Button style={{marginLeft:10}} size="small" type="primary" onClick={()=>changeHandle(true,'BMAP_DRAWING_POLYGON')}>画多边形</Button>
+                     <Button style={{marginLeft:10}} size="small" type="primary" onClick={()=>changeHandle(true,'BMAP_DRAWING_POLYLINE')}>画线段</Button>
+                     <Button style={{marginLeft:10}} size="small" type="primary" onClick={()=>changeHandle(true,'BMAP_DRAWING_MARKER')}>添加Marker</Button>
+                     <Button style={{marginLeft:10}} size="small" type="primary" onClick={removeOverlay}>clear all overlay</Button>
+                 </div>
+               </Map>
+    }}
+</Playground>
+
+### `DistanceToolControl`
+<Playground>
+    {()=>{
+        const [isOpen,setIsOpen] = React.useState(false);
+        const { DistanceToolControl} = MouseTool;
+        function changeHandle(isOpen){
+            setIsOpen(isOpen)
+        }
+        function onDrawEnd(){
+            setIsOpen(false)
+        }
+        console.log('isOpen',isOpen);
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <MouseTool>
+                    <DistanceToolControl  isOpen={isOpen} onDrawEnd={onDrawEnd}/>
+                    
+                 </MouseTool>
+               <Button size="small" type="primary" onClick={()=>changeHandle(true)}>开启</Button>
+               <Button style={{marginLeft:10}} size="small" type="primary" onClick={()=>changeHandle(false)}>关闭</Button>
+
+               </Map>
+    }}
+</Playground>
+
+
+
+
+## API
+
+### `公共属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| anchor | 控件的停靠位置,取值`BMAP_ANCHOR_TOP_LEFT`,`BMAP_ANCHOR_TOP_RIGHT`,<br />`BMAP_ANCHOR_BOTTOM_LEFT`,`BMAP_ANCHOR_BOTTOM_RIGHT` | string | BMAP_ANCHOR_TOP_LEFT |
+| offset | 控件的水平偏移值 | object\{left,top} | - |
+
+### `NavigationControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| type | 平移缩放控件的类型,[取值说明](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a2b4)`BMAP_NAVIGATION_CONTROL_LARGE`,`BMAP_NAVIGATION_CONTROL_SMALL`,<br/> `BMAP_NAVIGATION_CONTROL_PAN` ,`BMAP_NAVIGATION_CONTROL_ZOOM` | string | - |
+| showZoomInfo | 是否显示级别提示信息 | boolean | false |
+| enableGeolocation | 控件是否集成定位功能 | boolean | false |
+
+### `ScaleControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| unit | 设置比例尺单位制,[取值说明](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a2b11)`BMAP_UNIT_METRIC`,`BMAP_UNIT_IMPERIAL` | string |  |
+
+### `GeoLocationControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| showAddressBar | 是否显示定位信息面板(`注意:构造函数参数，初始化一次`) | boolean | true |
+| enableAutoLocation | 添加控件时是否进行定位(`注意:构造函数参数，初始化一次`) | boolean | false |
+| onLocationSuccess | 定位成功后触发此事件 | Function | - |
+| onLocationError | 定位失败后触发此事件 | Function | - |
+
+### `OverviewMapControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| size | 缩略地图控件的大小 | object{width,height} | - |
+| isOpen | 缩略地图添加到地图后的开合状态 | boolean | false |
+
+### `MapTypeMapControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| type | 控件样式,(`注意:构造函数参数，初始化一次`),[取值说明](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a2b17)`BMAP_MAPTYPE_CONTROL_HORIZONTAL`,`BMAP_MAPTYPE_CONTROL_DROPDOWN`, `BMAP_MAPTYPE_CONTROL_MAP` | string | - |
+
+### `DrawingControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| isOpen | 是否开启地图的绘制模式 | boolean | false |
+| enableCalculate | 是否打开距离或面积计算 | boolean | false |
+| drawingMode | 设置当前的绘制模式,[取值说明](http://api.map.baidu.com/library/DrawingManager/1.4/docs/symbols/BMapLib.DrawingManager.html#setDrawingMode)`BMAP_DRAWING_MARKER`,`BMAP_DRAWING_CIRCLE`, `BMAP_DRAWING_POLYLINE`,`BMAP_DRAWING_POLYGON`,`BMAP_DRAWING_RECTANGLE` | string | - |
+| markerOptions | 所画的点的可选参数，参考api中的[对应类](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b3) (`注意:构造函数参数，初始化一次`) | object | - |
+| circleOptions | 所画的圆的可选参数，参考api中的[对应类](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b17) (`注意:构造函数参数，初始化一次`) | object | - |
+| polylineOptions | 所画的线的可选参数，参考api中的[对应类](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b12) (`注意:构造函数参数，初始化一次`) | object | - |
+| polygonOptions | 所画的多边形的可选参数，参考api中的[对应类](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b15) (`注意:构造函数参数，初始化一次`) | object | - |
+| rectangleOptions | 所画的矩形的可选参数，参考api中的[对应类](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b15) (`注意:构造函数参数，初始化一次`) | object | - |
+| onCircleComplete | 绘制圆完成后，派发的事件接口 | Function | - |
+| onMarkerComplete | 绘制点完成后，派发的事件接口 | Function | - |
+| onPolygonComplete | 绘制多边形完成后，派发的事件接口 | Function | - |
+| onPolylineComplete | 绘制线完成后，派发的事件接口 | Function | - |
+| onRectangleComplete | 绘制矩形完成后，派发的事件接口 | Function | - |
+| onOverlayComplete | 鼠标绘制完成后，派发总事件的接口 | Function | - |
+
+### `DistanceToolControl属性`
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| isOpen | 是否开启地图的测距状态 | boolean | false |
+| followText | 测距过程中，提示框文字 (`注意:构造函数参数，初始化一次`)| string |  |
+| unit | 测距结果所用的单位制，可接受的属性为"metric"表示米制和"us"表示美国传统单位 (`注意:构造函数参数，初始化一次`)| string |  |
+| lineColor | 折线颜色 (`注意:构造函数参数，初始化一次`)| string |  |
+| lineStroke | 折线宽度 (`注意:构造函数参数，初始化一次`)| number |  |
+| opacity | 透明度 (`注意:构造函数参数，初始化一次`)| number |  |
+| lineStyle | 折线的样式，只可设置`solid`和`dashed` (`注意:构造函数参数，初始化一次`)| string |  |
+| opacity | 透明度 (`注意:构造函数参数，初始化一次`)| number |  |
+| secIcon | 转折点的Icon (`注意:构造函数参数，初始化一次`)| [BMap.Icon](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b5) |  |
+| closeIcon | 关闭按钮的Icon (`注意:构造函数参数，初始化一次`)| [BMap.Icon](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a3b5) |  |
+| cursor | 跟随的鼠标样式 (`注意:构造函数参数，初始化一次`)| string |  |
+
+

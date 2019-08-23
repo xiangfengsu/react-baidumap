@@ -1,0 +1,51 @@
+---
+name: Markers
+route: /markers
+order: 1
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button, Tag } from 'antd';
+
+
+import { Map,Marker,Markers } from '../../index';
+
+# Marker Component
+
+## 用法
+#### 设置位置
+<Playground>
+    {()=>{
+        const randomMarker = (len) => (
+            Array(len).fill(true).map((e, idx) => ({
+                lng: 100 + Math.random() * 30,
+                lat: 30 + Math.random() * 20,
+            }))
+        );
+
+        const [markers,setMarkers] = React.useState(()=>{
+            return randomMarker(500)
+        })
+
+
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  viewportPoints={markers} enableScrollWheelZoom center={[115,20]} zoom={5} mapContainerStyle={{height:'400px'}}>
+                 <Markers points={markers} />
+               </Map>
+    }}
+</Playground>
+
+
+
+
+## API
+
+#### 属性
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| markers | 点标记在地图上显示的位置 | array\{lng,lat} | - |
+| gridSize | 聚合计算时网格的像素大小，默认60 | number | - |
+| maxZoom | 最大的聚合级别，大于该级别就不进行相应的聚合 | number | - |
+| minClusterSize | 最小的聚合数量，小于该数量的不能成为一个聚合，默认为2 | number | - |
+| isAverangeCenter |  聚合点的落脚位置是否是所有聚合在内点的平均值，默认为否，落脚在聚合内的第一个点 | number | - |
+| styles | 自定义聚合后的图标风格 | array\{url: string;size?:{width:number;height:number};anchor?:{left:number;top:number};offset?:{left:number;top:number};textSize?:number;textColor?:string} | - |

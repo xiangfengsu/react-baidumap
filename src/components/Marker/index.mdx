@@ -1,0 +1,154 @@
+---
+name: Marker
+route: /marker
+order: 1
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button, Tag } from 'antd';
+
+
+import { Map,Marker } from '../../index';
+
+# Marker Component
+
+## 用法
+#### 设置位置
+<Playground>
+    {()=>{
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Marker position={{lng:121.359593, lat:31.228016}} enableDragging   />
+               </Map>
+    }}
+</Playground>
+
+#### 设置label
+<Playground>
+    {()=>{
+        const labelStyle={
+                color:'#fa8c16',
+                borderRadius:' 20px',
+                boxShadow:' rgba(0, 0, 0, 0.15) 0px 2px 8px',
+                backgroundColor:' rgb(255, 255, 255)',
+                backgroundClip:' padding-box',
+                left:' 30px',
+                position:' absolute',
+                top:' 12px',
+                zIndex:' -1',
+                padding:' 6px 10px 6px 22px',
+        }
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Marker iconUrl="ICON_CAR_GREEN" position={{lng:121.359593, lat:31.228016}} iconSize={{width:24*2,height:34*2}} labelStyle={labelStyle} enableDragging label={<>C2093595</>}   />
+               </Map>
+    }}
+</Playground>
+
+#### 添加多个标注
+<Playground>
+{
+  ()=>{
+      const MapExample = () => {
+            const [markers, setMarkers] = React.useState([]);
+            const randomHandle = (lower, upper)=>(Math.floor(Math.random() * (upper - lower)) + lower);
+            const iconUrls = ['ICON_DOT_GREEN','ICON_DOT_YELLOW','ICON_DOT_RED','ICON_CAR_GREEN','ICON_CAR_YELLOW','ICON_CAR_RED'];
+            const mapRef = React.useCallback((node)=>{
+                if(node && node.map){
+                       const bounds = node.map.getBounds();
+                        const sw = bounds.getSouthWest();
+                        const ne = bounds.getNorthEast();
+                        const lngSpan = Math.abs(sw.lng - ne.lng);
+                        const latSpan = Math.abs(ne.lat - sw.lat);
+                        const markerList = Array.from({ length: 20 }).map(item => {
+                            const position = {
+                                lng: sw.lng + lngSpan * (Math.random() * 0.7),
+                                lat: ne.lat - latSpan * (Math.random() * 0.7)
+                            };
+                            const iconUrl = iconUrls[randomHandle(0,iconUrls.length-1)];
+
+
+                            return <Marker iconUrl={iconUrl} key={position.lng} position={position} title={`${JSON.stringify(position,null,'\t')}`} />;
+                        });
+                        setMarkers(markerList);
+                }
+                
+            },[])
+            return (
+                <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"
+                    ref={mapRef}
+                    center={[121.359973, 31.227113]}
+                    zoom={16}
+                    mapContainerStyle={{ height: "400px" }}
+                    
+                >
+                {markers}
+                </Map>
+            );
+        };
+
+       return  <MapExample />
+  }
+}
+</Playground>
+
+#### 开启标注拖拽功能
+<Playground>
+    {()=>{
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" id="map_events"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Marker position={{lng:121.359593, lat:31.228016}} enableDragging />
+               </Map>
+    }}
+</Playground>
+
+
+#### 自定义Marker
+
+注意自定义marker children 必须唯一，如需要多个内容，用一个标签包裹
+<Playground>
+    {()=>{
+        const [text,setText] = React.useState(100);
+      
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" id="map_events"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Marker position={{lng:121.359593, lat:31.228016}}>
+                     <div style={{color:'red',whiteSpace:'nowrap'}}>
+                      <p>我是自定义Marker</p>
+                       <p>我是自定义Marker</p>
+                        <p>我是自定义Marker</p>
+                     </div>
+                </Marker>
+                 <Button onClick={()=>setText(text+1)}>update children</Button>
+               </Map>
+    }}
+</Playground>
+
+
+
+
+
+## API
+
+#### 属性
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| position | 点标记在地图上显示的位置，默认为地图中心点 | object\{lng,lat} | - |
+| iconSize | 图标的尺寸 | object\{width,height} | {widht:24,<br/>height:34} |
+| iconUrl | 默认取值`ICON_DOT_GREEN`,`ICON_DOT_YELLOW`,`ICON_DOT_RED`<br/>`ICON_CAR_GREEN`,`ICON_CAR_YELLOW`,`ICON_CAR_RED`<br/>若自定义图标url(`注意：url为网络地址`) | string | - |
+| offset | 设置标注的偏移值| object\{lat,lng} | - |
+| title | 设置标注的标题，当鼠标移至标注上时显示此标题 | string |  |
+| label | 设置标注label | ReactNode |  |
+| labelStyle | 设置lable样式 | [React.CSSProperties](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/e434515761b36830c3e58a970abf5186f005adac/types/react/index.d.ts#L794) |  |
+| enableDragging | 开启标注拖拽功能 | boolean | - |
+| enableMassClear | 允许覆盖物在map.clearOverlays方法中被清除 | boolean | - |
+
+#### 事件 [参考](http://api.map.baidu.com/library/RichMarker/1.2/docs/symbols/BMapLib.RichMarker.html#event:onclick)
+| 参数 | 说明 | 参数 | 
+| --- | --- | --- | 
+| onClick | 点击Marker时，派发事件| {type, target, point, pixel} |
+| onDblClick | 双击Marker时，派发事件 | {type, target, pixel, point} |
+| onMouseDown | 在Marker上按下鼠标时，派发事件 | {type, target, pixel, point} |
+| onMouseUp | 在Marker上弹起鼠标时，派发事件 | {type, target, pixel, point} |
+| onMouseOut | 鼠标移出Marker时，派发事件 | {type, target, pixel, point} |
+| onMouseOver | 鼠标移到Marker上时，派发事件 | {type, target, pixel, point} |
+| onDragStart | 开始拖拽Marker时，派发事件 | {type, target, pixel, point} |
+| onDragging | 拖拽Marker的过程中，派发事件 | {type, target, pixel, point} |
+| onDragEnd | 拖拽Marker结束时，派发事件 | {type, target, pixel, point} |

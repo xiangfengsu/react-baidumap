@@ -1,0 +1,58 @@
+{
+  "name": "react-baidumap",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "author": "dafeng",
+  "license": "MIT",
+  "scripts": {
+    "start": "cross-env APP_ROOT=example APP_TYPE=site umi dev",
+    "dev": "father build --watch",
+    "build": "father build ",
+    "doc:dev": "father doc dev ",
+    "doc:build": "father doc build",
+    "prettier": "prettier --write ./src/**/*.{ts,tsx}",
+    "lint": "eslint ./src/**/*.{ts,tsx}",
+    "lint:fix": "eslint --fix ./src/**/*.{ts,tsx}",
+    "typings": "rm -rf typings && tsc -d --declarationDir typings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elemefe/react-amap.git"
+  },
+  "keywords": [
+    "baidumap",
+    "map",
+    "react"
+  ],
+  "devDependencies": {
+    "@types/baidumap-web-sdk": "^0.0.0",
+    "@types/classnames": "^2.2.9",
+    "@types/invariant": "^2.2.30",
+    "@types/lodash": "^4.14.137",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "antd": "^3.22.0",
+    "babel-eslint": "^10.0.2",
+    "babel-plugin-import": "^1.12.0",
+    "classnames": "^2.2.6",
+    "eslint-import-resolver-typescript": "^1.1.1",
+    "eslint-plugin-dependencies": "^2.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "father": "^2.15.1",
+    "prettier": "^1.18.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "lodash": "^4.17.15"
+  }
+}

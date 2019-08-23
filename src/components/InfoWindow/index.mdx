@@ -1,0 +1,59 @@
+---
+name: InfoWindow
+route: /infowindow
+order: 10
+sidebar: true
+---
+
+import { Playground } from 'docz';
+import { Button ,Card} from 'antd';
+import {Map,Marker,Polyline ,InfoWindow} from '../../index';
+
+# InfoWindow Component
+
+## 何时使用
+
+需要在地图上显示一个信息窗体的时候使用；
+
+**注意：在一个地图上最多只能同时显示一个信息窗体**
+
+<Playground>
+    {()=>{
+        const pointList = [{lng:121.357841,lat:31.229182},{lng:121.360177,lat:31.230664},{lng:121.360518,lat:31.226696}];
+        const [points,setPoints] = React.useState(pointList);
+        const [visible,setVisible] = React.useState(true);
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+                 <Marker position={{ lng: 121.359593, lat: 31.228016 }}   onClick={(event)=>{console.log(event);setVisible(true);}} />
+                 <InfoWindow position={{ lng: 121.359593, lat: 31.228016 }} visible={visible} onCancel={()=>{setVisible(false);console.log('close')}}  >
+                     <div>
+                         <Card title="infowindow"  style={{ width: 300 }}>
+                            <p>Card content</p>
+                            <p>Card content</p>
+                            <p>Card content</p>
+                        </Card>
+                     </div>
+                 </InfoWindow>
+                 
+               </Map>
+    }}
+</Playground>
+
+
+
+## API
+
+#### 属性
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| position | 信息窗体显示基点位置 | {lng,lat} | - |
+| offset | 信息窗位置偏移值。默认情况下在地图上打开的信息窗底端的尖角将指向其地理坐标，在标注上打开的信息窗底端尖角的位置取决于标注所用图标的infoWindowOffset属性值，您可以为信息窗添加偏移量来改变默认位置 | {left,top} | {left:0,top:0} |
+| visible | 是否显示信息窗体。在一个地图中同时最多只能显示一个信息窗体 | boolean | false |
+| children | 直接以 JSX 语法在 InfoWindow 标签下写子元素，即 props.children; | React.ReactElement | - |
+| enableAutoPan | 是否开启打开信息窗口时地图自动平移 | boolean | true |
+
+#### 事件 [参考](http://api.map.baidu.com/library/InfoBox/1.2/docs/symbols/BMapLib.InfoBox.html#event:Open)
+| 参数 | 说明 | 参数 | 
+| --- | --- | --- | 
+| onOpen | 打开infoBox时，派发事件| {type, target, point} |
+| onCancel | 关闭infoBox时，派发事件 | {type, target,point} |

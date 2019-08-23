@@ -1,0 +1,188 @@
+---
+name: Map
+route: /
+order: 1
+sidebar: true
+---
+import { Playground } from 'docz';
+import { Button, Icon } from 'antd';
+import { Map } from '../../index';
+
+# Map Component
+
+## 基本使用
+#### `center` 为字符串
+
+<Playground>
+{
+    ()=>{
+        return <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" center="上海市长宁区"   mapContainerStyle={{height:'400px'}}  />
+    }
+}
+</Playground>
+
+
+#### `center` Array
+
+<Playground>
+
+{()=>{
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"
+                    center={[121.359973, 31.227113]}
+                    zoom={16}
+                    mapContainerStyle={{ height: "400px" }}
+                    
+                >
+                </Map>
+
+    }}
+</Playground>
+
+#### 事件绑定
+
+<Playground>
+    {()=>{
+        function onClickHandle(event){
+            console.log(event);
+            const {point} = event;
+            alert(JSON.stringify(point));
+        }
+        
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" id="map_events"    center={[121.359973,31.227113]} zoom={18} mapContainerStyle={{height:'400px'}} onClick={onClickHandle} />
+
+    }}
+</Playground>
+
+#### 在 Map 下添加自定义 DOM 组件
+###### 你可以在 Map 组件内部写其他的 DOM 组件，不过你需要自己给它定位；可以把这个理解成一个自定义图层（Custom Layer），不过我们并没有专门定义一个 `CustomLayer` 组件，因为你完全可以用其他方式（比如`className="customLayer"`）来向你代码的阅读者表明这是一个自定义图层。更少的限制，才有更多的灵活性。
+
+<Playground>
+    {()=>{
+        const style = {
+                position: 'absolute',
+                top: '10px',
+                left: '10px',
+                padding: '5px 10px',
+                border: '1px solid #d3d3d3',
+                color:'red',
+                backgroundColor: '#f9f9f9'};
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" center={[121.359973,31.227113]}  zoom={18} mapContainerStyle={{height:'400px'}} ><div style={style}>自定义DOM</div></Map>
+
+    }}
+</Playground>
+
+#### 在 Map 下添加自定义地图组件
+
+
+<Playground>
+    {()=>{
+        const MyMapComponent = props => {
+        const { mapRef } = props;
+        const style = {
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            padding: "5px 10px",
+            border: "1px solid #d3d3d3",
+            backgroundColor: "#f9f9f9"
+        };
+        
+
+        return (
+            <div style={style}>
+                <Button type="primary" shape="circle" icon="plus" onClick={()=>{
+                    
+                    mapRef.current.map.zoomIn()
+                    console.log(mapRef.current.map.getZoom())
+                    }}/>
+                <Button type="primary" shape="circle" icon="minus" onClick={()=>mapRef.current.map.zoomOut()} />
+            </div>
+        );
+        };
+        const MapExample = () => {
+            const mapRef = React.useRef();
+            return (
+                <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"
+                    ref={mapRef}
+                    center={[121.359973, 31.227113]}
+                    zoom={18}
+                    mapContainerStyle={{ height: "400px" }}
+                    
+                >
+                    <MyMapComponent mapRef={mapRef} />
+                </Map>
+            );
+        };
+
+       return  <MapExample />
+
+    }}
+</Playground>
+
+## API
+
+#### 属性 
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| mapKey | 百度地图key | string | - |
+| id | 地图容器 id | string | - |
+| zoom | 地图zoom | number | 16 |
+| center | 地图center | string\|Array | 上海临空2号楼 |
+| enableDragging | 是否启用地图拖拽 | boolean | true |
+| enableScrollWheelZoom | 是否开启鼠标滚轮缩放功能。仅对PC上有效 | boolean | true |
+| enableDoubleClickZoom | 是否启用双击放大，默认启用 | boolean | true |
+| enableKeyboard | 是否启用键盘操作，默认禁用。键盘的上、下、左、右键可连续移动地图。同时按下其中两个键可使地图进行对角移动。PgUp、PgDn、Home和End键会使地图平移其1/2的大小。+、-键会使地图放大或缩小一级 | boolean | false |
+| inMapViewport | 是否开启根据viewportPoints提供坐标设置地图视野 | boolean | true |
+| viewportPoints | 根据提供坐标设置地图视野，调整后的视野会保证包含提供的坐标(注:center和zoom不需要设置) | array\{lat,lng}  |  |
+| mapContainerStyle | 地图容器样式 | object | - |
+| mapContainerClassName | 地图容器className | string | - |
+
+#### 事件 [参考](http://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html#a0b1)
+| 参数 | 说明 | 参数 | 
+| --- | --- | --- | 
+| onClick | 左键单击地图时触发此事件。 当双击时，产生的事件序列为： click click dblclick | {type, target, point, pixel, overlay} |
+| onDblClick | 鼠标双击地图时会触发此事件 | {type, target, pixel, point} |
+| onRightClick | 右键单击地图时触发此事件。 当双击时，产生的事件序列为： rightclick rightclick rightdblclick | {type, target, point, pixel, overlay} |
+| onRightDblClick | 右键双击地图时触发此事件 | {type, target, point, pixel, overlay} |
+| onMapTypeChange | 地图类型发生变化时触发此事件 | {type, target}	 |
+| onMouseMove | 鼠标在地图区域移动过程中触发此事件 | {type, target, point, pixel, overlay} |
+| onMouseOver | 鼠标移入地图区域时触发此事件 | 	{type, target} |
+| onMouseOut | 鼠标移出地图区域时触发此事件 | {type, target} |
+| onMouseStart | 地图移动开始时触发此事件 | {type, target}	 |
+| onMoving | 地图移动过程中触发此事件 | {type, target}	 |
+| onMoveEnd | 地图移动结束时触发此事件 | {type, target}	 |
+| onZoomStart | 地图更改缩放级别开始时触发触发此事件 | {type, target}	 |
+| onZoomEnd | 地图更改缩放级别结束时触发触发此事件 | {type, target}	|
+| onAddOverlay | 当使用Map.addOverlay()方法向地图中添加单个覆盖物时会触发此事件 | {type, target}	 |
+| onAddControl | 当使用Map.addControl()方法向地图中添加单个控件时会触发此事件 | {type, target}	 |
+| onRemoveControl | 当使用Map.removeControl()方法移除单个控件时会触发此事件 | {type, target}	 |
+| onRemoveOverlay | 当使用Map.removeOverlay()方法移除单个覆盖物时会触发此事件 | {type, target}	 |
+| onClearOverlays | 当使用Map.clearOverlays()方法一次性移除全部覆盖物时会触发此事件 | {type, target}	 |
+| onDragStart | 开始拖拽地图时触发 | {type, target, pixel, point}	 |
+| onDragging | 拖拽地图过程中触发 | {type, target, pixel, point}	 |
+| onDragEnd | 停止拖拽地图时触发| {type, target, pixel, point}	 |
+| onAddTileLayer | 添加一个自定义地图图层时触发此事件 | {type, target}	 |
+| onRemoveTileLayer | 移除一个自定义地图图层时触发此事件 | {type, target}	 |
+| onLoad | 调用Map.centerAndZoom()方法时会触发此事件。这表示位置、缩放层级已经确定，但可能还在载入地图图块 | {type, target, pixel, point, zoom}	 |
+| onResize | 地图可视区域大小发生变化时会触发此事件 | {type, target, size} |
+| onHotspotClick | 点击热区时触发此事件 | {type, target}	 |
+| onHotspotOver | 鼠标移至热区时触发此事件 | {type, target}	 |
+| onHotspotOut | 鼠标移出热区时触发此事件 | {type, target}	 |
+| onTilesLoaded | 当地图所有图块完成加载时触发此事件 | {type, target}	 |
+| onTouchStart | 触摸开始时触发此事件，仅适用移动设备 | {type, target, point,pixel}	 |
+| onTouchMove | 触摸移动时触发此事件，仅适用移动设备 | {type, target, point,pixel}	 |
+| onTouchEnd | 触摸结束时触发此事件，仅适用移动设备 | {type, target, point,pixel}	 |
+| onLongPress | 长按事件，仅适用移动设备 | {type, target, point,pixel}	 |
+
+
+
+#### 获取地图实例方法
+
+```jsx
+const mapRef = React.createRef();
+<Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" ref={mapRef} />
+const mapInstance = mapRef.current.map; // 地图实例
+```
+
+
