@@ -18,13 +18,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elemefe/react-amap.git"
+    "url": "https://github.com/xiangfengsu/react-baidumap"
   },
   "keywords": [
     "baidumap",
     "map",
     "react"
   ],
+  "bugs": {
+    "url": "https://github.com/xiangfengsu/react-baidumap/issues"
+  },
+  "homepage": "http://react-baidu-map.surge.sh/",
   "devDependencies": {
     "@types/baidumap-web-sdk": "^0.0.0",
     "@types/classnames": "^2.2.9",
