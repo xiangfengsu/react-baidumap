@@ -36,7 +36,9 @@ const updaterMap = {
       const { lng, lat } = position;
       const point = new BMap.Point(lng, lat);
       const marker = new BMap.Marker(point);
-      marker.setIcon(new BMap.Icon('http://localhost:8888/marker.svg', new BMap.Size(24, 34)));
+      marker.setIcon(
+        new BMap.Icon('http://bmaplib.surge.sh/icon/icon_car_green.svg', new BMap.Size(24, 34)),
+      );
       markerClusterers.push(marker);
     });
     instance.addMarkers(markerClusterers);
