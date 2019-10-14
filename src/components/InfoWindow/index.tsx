@@ -47,7 +47,7 @@ const InfoWindow = forwardRef(
   (props: IInfoWindowProps, ref: React.RefObject<Record<string, any>>) => {
     const map = useMap() as BMap.Map;
     const { position = map.getCenter(), visible, children } = props;
-    const containerRef = useRef<HTMLElement>(document.createElement('div'));
+    const containerRef = useRef<HTMLElement | null>(null);
 
     const registeredEventsRef = useRef<any[]>([]);
     const [infoWindowInstance, setInfoWindowInstance] = useState<BMapLib.InfoBox>();
@@ -66,6 +66,7 @@ const InfoWindow = forwardRef(
         const opts: BMapLib.InfoBoxOptions = {
           boxStyle,
         };
+        containerRef.current = document.createElement('div');
 
         const infoWindow = new BMapLib.InfoBox(map, containerRef.current, opts);
         applyUpdatersToProps(updaterMap, {}, props, infoWindow, map);
@@ -114,7 +115,11 @@ const InfoWindow = forwardRef(
       [infoWindowInstance],
     );
 
-    return createPortal(React.Children.only(children), containerRef.current);
+    return containerRef.current !== null ? (
+      createPortal(React.Children.only(children), containerRef.current)
+    ) : (
+      <></>
+    );
   },
 );
 

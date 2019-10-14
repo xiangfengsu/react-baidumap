@@ -17,7 +17,7 @@ import {Map,Marker,MouseTool} from '../../index';
 <Playground>
     {()=>{
         const { NavigationControl } = MouseTool;
-       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
                  <MouseTool>
                     <NavigationControl  />
                  </MouseTool>
@@ -185,7 +185,7 @@ import {Map,Marker,MouseTool} from '../../index';
             setIsOpen(false)
         }
         console.log('isOpen',isOpen);
-       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
+       return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" id="_dfd12"  enableScrollWheelZoom center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
                  <MouseTool>
                     <DistanceToolControl  isOpen={isOpen} onDrawEnd={onDrawEnd}/>
                     

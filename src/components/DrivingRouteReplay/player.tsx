@@ -84,7 +84,7 @@ const Player = forwardRef((props: IPlayerProps, ref: React.RefObject<Record<stri
           ref={passedPolylineRef}
           points={passedPolylinePath}
           strokeColor="#AF5"
-          strokeWeight={6}
+          strokeWeight={8}
           strokeOpacity={1}
         />
       </>

@@ -15,10 +15,20 @@ import {Map,Marker,Circle} from '../../index';
 #### 基本设置
 <Playground>
     {()=>{
-        const [radius,setRadius] = React.useState(100);
+        const [radius,setRadius] = React.useState(200);
         const [center,setCenter] = React.useState({lng:121.359593, lat:31.228016});
+        const circleRef = React.useCallback((node)=>{
+            if(node && node.instance){
+                const bounds = node.instance.getBounds();
+                        const sw = bounds.getSouthWest();
+                        const ne = bounds.getNorthEast();
+                console.log('sw',sw)
+                console.log('ne',ne)
+            }
+        },[])
+        
        return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"   center={[121.359593,31.228016]} zoom={16} mapContainerStyle={{height:'400px'}}>
-                 <Circle center={center} radius={radius} strokeColor="blue" strokeWeight={2} />
+                 <Circle ref={circleRef} center={center} radius={radius} strokeColor="blue" strokeWeight={2} />
                   <Button onClick={()=>setRadius(radius+5)}>update radius</Button>
                   <Button onClick={()=>setCenter({lng: 121.34883790388228, lat: 31.227074958400895})}>update center</Button>
                </Map>

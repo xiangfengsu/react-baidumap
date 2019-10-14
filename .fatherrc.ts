@@ -1,6 +1,5 @@
-import { IBundleOptions } from 'father';
 
-const options: IBundleOptions = {
+const options = {
   esm: 'babel',
   cjs: 'babel',
   entry: 'src/index.ts',
@@ -13,7 +12,16 @@ const options: IBundleOptions = {
         style: true,
       },
     ],
-  ]
+  ],
+  // doc:{
+  //   htmlContext:{
+  //     head: {
+  //       scripts: [
+  //         { src: 'http://bmaplib.surge.sh/tracksession/index.js' },
+  //       ],
+  //     },
+  //   }
+  // }
 };
 
 export default options;

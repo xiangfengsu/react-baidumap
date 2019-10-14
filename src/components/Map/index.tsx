@@ -7,7 +7,7 @@ import { applyUpdatersToProps } from '../_utils/help';
 import useLoadScript from './useLoadScript';
 import MapContext from '../map-context';
 import { IPoint, EventParamsBase } from '../_utils/point';
-import './index.less';
+import './index.css';
 
 export interface IMapProps {
   mapKey: string;
@@ -131,13 +131,15 @@ const updaterMap = {
   zoom(map: BMap.Map, zoom: number) {
     map.setZoom(zoom);
   },
-  center(map: BMap.Map, center: string | number[]) {
-    if (Array.isArray(center)) {
-      const [lng, lat] = center;
-      const point = new BMap.Point(lng, lat);
-      map.setCenter(point);
-    }
-  },
+  // center(map: BMap.Map, center: string | number[]) {
+  //   if (Array.isArray(center)) {
+  //     const [lng, lat] = center;
+  //     const point = new BMap.Point(lng, lat);
+  //     map.setCenter(point);
+  //   } else {
+  //     map.setCenter(center);
+  //   }
+  // },
 };
 
 const Map = forwardRef((props: IMapProps, ref: React.RefObject<Record<string, any>>) => {
@@ -176,7 +178,9 @@ const Map = forwardRef((props: IMapProps, ref: React.RefObject<Record<string, an
         setMapOnLoad(true);
       };
       mapInit(map);
-      applyUpdatersToProps(updaterMap, {}, props, map, undefined);
+      const initUpdateMap = { ...updaterMap };
+      // delete initUpdateMap.center;
+      applyUpdatersToProps(initUpdateMap, {}, props, map, undefined);
 
       setMapInstance(map);
     }

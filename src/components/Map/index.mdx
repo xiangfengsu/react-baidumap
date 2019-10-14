@@ -16,7 +16,19 @@ import { Map } from '../../index';
 <Playground>
 {
     ()=>{
-        return <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" center="上海市长宁区"   mapContainerStyle={{height:'400px'}}  />
+        let [city,setCity] = React.useState("上海市");
+        function onClickHandle(){
+            if(city === '上海市'){
+                 setCity('北京市')
+            }else{
+                 setCity('上海市')
+            }
+           
+        }
+        return <>
+         <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN" inMapViewport={false}  center={city}    mapContainerStyle={{height:'400px'}}  />
+         <Button onClick={onClickHandle}>城市切换</Button>
+        </>
     }
 }
 </Playground>

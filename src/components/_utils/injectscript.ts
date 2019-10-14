@@ -74,26 +74,20 @@ export const injectPluginScript = ({ url, id }: InjectScriptArg): Promise<any> =
       const existingScript = document.getElementById(id) as HTMLScriptElement | undefined;
       const windowWithMap: WindowWithMap = window;
       if (existingScript) {
-        // url 和 id 相同
-        if (existingScript.src === url) {
-          if (existingScript.getAttribute('data-state') === 'ready') {
+        if (existingScript.getAttribute('data-state') === 'ready') {
+          resolve(id);
+        } else {
+          const originalPluginInit = windowWithMap.pluginInit;
+          windowWithMap.pluginInit = existingScript.onload = function() {
+            if (originalPluginInit) {
+              originalPluginInit();
+            }
             resolve(id);
-          } else {
-            const originalPluginInit = windowWithMap.pluginInit;
-            windowWithMap.pluginInit = existingScript.onload = function() {
-              if (originalPluginInit) {
-                originalPluginInit();
-              }
-              resolve(id);
-            };
+          };
 
-            return;
-          }
+          return;
         }
-        // Same script id but url changed: recreate the script
-        else {
-          existingScript.remove();
-        }
+        return ;
       }
 
       const script = document.createElement('script');

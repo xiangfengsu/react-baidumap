@@ -1,6 +1,6 @@
 {
   "name": "react-bmaps",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "main": "lib/index.js",
   "module": "es/index.js",
   "author": "dafeng",

@@ -11,7 +11,7 @@ const WrapperCustomOverlay = (props: IWrapperCustomOverlayProps): React.ReactEle
   const { lng, lat } = position;
   const point = new BMap.Point(lng, lat);
   const pixel = map.pointToOverlayPixel(point);
-  console.log('pixel', pixel);
+  // console.log('pixel', pixel);
   const [l = 0, t = 0] = offset;
   const left = `${pixel.x + l}px`;
   const top = `${pixel.y + t}px`;

@@ -31,6 +31,7 @@ export interface IMarkerProps {
   iconUrl?: string;
   offset?: IOffset;
   title?: string;
+  rotation?:number;
   label?: string | React.ReactNode;
   labelStyle?: React.CSSProperties;
   enableDragging?: boolean;
@@ -75,6 +76,9 @@ const updaterMap = {
     const { left = 0, top = 0 } = offset;
     instance.setAnchor(new BMap.Size(left, top));
   },
+  rotation(instance: BMapLib.RichMarker, rotation: number) {
+    instance.setRotation(rotation);
+  },
   enableDragging(instance: BMap.Marker, enable: boolean) {
     if (enable) instance.enableDragging();
     else instance.disableDragging();
@@ -83,6 +87,9 @@ const updaterMap = {
     if (enable) instance.enableMassClear();
     else instance.disableMassClear();
   },
+  zIndex(instance: BMap.Marker, zIndex: number){
+    instance.setZIndex(zIndex)
+  }
 };
 
 const DefaultMarker: React.FunctionComponent<IMarkerProps> = props => {
@@ -139,6 +146,7 @@ const Marker = forwardRef((props: IMarkerProps, ref: React.RefObject<Record<stri
   useEffect(function initInstance() {
     // @ts-ignore
     addPlugins(['RichMarker']).then(() => {
+      // console.log('FFFFFF');
       const { lng, lat } = position;
       const point = new BMap.Point(lng, lat);
       const marker = new BMapLib.RichMarker(containerRef.current, point);

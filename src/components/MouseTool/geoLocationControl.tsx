@@ -50,7 +50,7 @@ const GeoLocationControl = forwardRef(
         anchor: ControlAnchorEnum[anchor],
         offset: new BMap.Size(left, top),
       };
-      console.log(opts);
+      // console.log(opts);
       const geoLocationControl = new BMap.GeolocationControl(opts);
       map.addControl(geoLocationControl);
       applyUpdatersToProps(updaterMap, {}, props, geoLocationControl, map);

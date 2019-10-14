@@ -42,6 +42,7 @@ const DistanceToolControl = forwardRef(
   (props: IDistanceToolControlProps, ref: React.RefObject<Record<string, any>>) => {
     const map = useMap() as BMap.Map;
     const registeredEventsRef = useRef<any[]>([]);
+    const instanceRef = useRef<BMapLib.DistanceTool | null>(null);
     const [distanceToolControlInstance, setDistanceToolControlInstance] = useState<
       BMapLib.DistanceTool
     >();
@@ -54,10 +55,12 @@ const DistanceToolControl = forwardRef(
         };
 
         const distanceTool = new BMapLib.DistanceTool(map, distanceToolControlOpts);
+        instanceRef.current = distanceTool;
         applyUpdatersToProps(updaterMap, {}, props, distanceTool, map);
 
         setDistanceToolControlInstance(distanceTool);
       });
+      
     }, []);
 
     useEffect(function updatersToProps() {
