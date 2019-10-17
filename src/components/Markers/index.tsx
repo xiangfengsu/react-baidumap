@@ -37,7 +37,7 @@ const updaterMap = {
       const point = new BMap.Point(lng, lat);
       const marker = new BMap.Marker(point);
       marker.setIcon(
-        new BMap.Icon('http://bmaplib.surge.sh/icon/icon_car_green.svg', new BMap.Size(24, 34)),
+        new BMap.Icon('https://static.test.hongchouat.com/aliyunNAS/library/icon/icon_car_green.svg', new BMap.Size(24, 34)),
       );
       markerClusterers.push(marker);
     });

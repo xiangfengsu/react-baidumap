@@ -29,7 +29,7 @@ export const makeLoadScriptUrl = ({ mapKey, version }: LoadScriptUrlOptions) => 
 
   params.push('callback=initMap');
 
-  return `http://api.map.baidu.com/api?${params.join('&')}`;
+  return `https://api.map.baidu.com/api?${params.join('&')}`;
 };
 
 export const registerEvents = <T extends IEventListenerProps>(

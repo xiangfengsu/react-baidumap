@@ -1,15 +1,15 @@
 import { injectPluginScript } from './injectscript';
 
 const pluginList: { [key: string]: string } = {
-  DrawingManager: 'http://bmaplib.surge.sh/DrawingManager_min.js',
-  RichMarker: 'http://bmaplib.surge.sh/RichMarker_min.js',
-  DistanceTool: 'http://bmaplib.surge.sh/DistanceTool_min.js',
-  TextIconOverlay: 'http://bmaplib.surge.sh/TextIconOverlay_min.js',
-  MarkerClusterer: 'http://bmaplib.surge.sh/MarkerClusterer_min.js',
-  HeatMap: 'http://bmaplib.surge.sh/Heatmap_min.js',
-  LuShu: 'http://bmaplib.surge.sh/LuShu.js',
-  InfoBox: 'http://bmaplib.surge.sh/InfoBox.js',
-  CurveLine: 'http://bmaplib.surge.sh/CurveLine.js',
+  DrawingManager: 'https://static.test.hongchouat.com/aliyunNAS/library/DrawingManager_min.js',
+  RichMarker: 'https://static.test.hongchouat.com/aliyunNAS/library/RichMarker_min.js',
+  DistanceTool: 'https://static.test.hongchouat.com/aliyunNAS/library/DistanceTool_min.js',
+  TextIconOverlay: 'https://static.test.hongchouat.com/aliyunNAS/library/TextIconOverlay_min.js',
+  MarkerClusterer: 'https://static.test.hongchouat.com/aliyunNAS/library/MarkerClusterer_min.js',
+  HeatMap: 'https://static.test.hongchouat.com/aliyunNAS/library/Heatmap_min.js',
+  LuShu: 'https://static.test.hongchouat.com/aliyunNAS/library/LuShu.js',
+  InfoBox: 'https://static.test.hongchouat.com/aliyunNAS/library/InfoBox.js',
+  CurveLine: 'https://static.test.hongchouat.com/aliyunNAS/library/CurveLine.js',
 };
 export const addPlugins = (plugins: string[] = []): Promise<any> => {
   const injecScripts = [];

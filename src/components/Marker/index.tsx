@@ -102,10 +102,10 @@ const DefaultMarker: React.FunctionComponent<IMarkerProps> = props => {
   } = props;
   const isDefaultIcon = MarkerDefaultIcon[iconUrl];
   const iconSrc = isDefaultIcon
-    ? `http://bmaplib.surge.sh/icon/${MarkerDefaultIcon[iconUrl]}.svg`
+    ? `https://static.test.hongchouat.com/aliyunNAS/library/icon/${MarkerDefaultIcon[iconUrl]}.svg`
     : reg.test(iconUrl)
     ? iconUrl
-    : `http://bmaplib.surge.sh/icon/${MarkerDefaultIcon['ICON_DOT_GREEN']}.svg`;
+    : `https://static.test.hongchouat.com/aliyunNAS/library/icon/${MarkerDefaultIcon['ICON_DOT_GREEN']}.svg`;
   const [rect, ref] = useClientRect();
   const styles: React.CSSProperties = {
     position: 'absolute',
