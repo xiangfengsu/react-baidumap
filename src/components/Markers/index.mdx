@@ -25,13 +25,21 @@ import { Map,Marker,Markers } from '../../index';
         );
 
         const [markers,setMarkers] = React.useState(()=>{
-            return randomMarker(500)
+            return randomMarker(10)
         })
+
+        function updateHandle(){
+            setMarkers(randomMarker(10))
+        }
+
+        console.log('markers',markers)
 
 
        return  <Map mapKey="SbtCslmFwveeKa1mM1dHoNL2uyambFMN"  viewportPoints={markers} enableScrollWheelZoom center={[115,20]} zoom={5} mapContainerStyle={{height:'400px'}}>
                  <Markers points={markers} />
+                  <Button style={{marginTop:4}} onClick={updateHandle}>update</Button>
                </Map>
+              
     }}
 </Playground>
 

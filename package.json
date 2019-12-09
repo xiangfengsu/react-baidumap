@@ -1,12 +1,11 @@
 {
   "name": "react-bmaps",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "lib/index.js",
   "module": "es/index.js",
   "author": "dafeng",
   "license": "MIT",
   "scripts": {
-    "start": "cross-env APP_ROOT=example APP_TYPE=site umi dev",
     "dev": "father build --watch",
     "build": "father build ",
     "doc:dev": "father doc dev ",

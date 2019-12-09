@@ -31,6 +31,7 @@ const defaultProps: Partial<IMarkersProps> = {
 
 const updaterMap = {
   points(instance: BMapLib.MarkerClusterer, points: IPoint[] = []) {
+    instance.clearMarkers();
     const markerClusterers: BMap.Marker[] = [];
     points.forEach(position => {
       const { lng, lat } = position;
