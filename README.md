@@ -1,3 +1,5 @@
+
+
 # react-bmaps
 
 
@@ -45,7 +47,7 @@ import ReactDOM from 'react-dom';
 import { Map } from 'react-bmaps';
 
 ReactDOM.render(
-  <Map mapKey={YOUR_AMAP_KEY} />,
+  <Map mapKey={YOUR_BAIDU_MAP_KEY} />,
   document.querySelector('#app')
 )
 ```
@@ -71,7 +73,3 @@ import Marker from 'react-bmaps/lib/marker';
 + 你也可以定义一个纯组件,把 Map 组件的 mapKey 属性写好后返回新组件。
 
 组件的使用请移步[组件文档](http://react-baidu-map.surge.sh/)。
-
-
-
-
